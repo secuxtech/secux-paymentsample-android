@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+
+    <color name="colorYellow">#DFB445</color>
+    <color name="colorYellowLight">#FFF9E9</color>
+    <color name="colorPurple">#4F2359</color>
+    <color name="colorBlack">#01111C</color>
+    <color name="colorProgressRing">#EBCB56</color>
+    <color name="colorPageBkg">#F8F8F8</color>
+    <color name="colorLabel">#1F2020</color>
+    <color name="colorAccountInfo">#707070</color>
+    <color name="colorPaymentSuccess">#51B924</color>
+    <color name="colorPaymentFail">#FA7B7B</color>
+</resources>
