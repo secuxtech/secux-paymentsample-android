@@ -1,8 +1,10 @@
 package com.secuxtech.testapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -11,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 
 
@@ -40,13 +41,21 @@ public class PaymentResultActivity extends BaseActivity {
 
             TextView textviewHis = findViewById(R.id.textView_history);
             textviewHis.setText("Receipt");
+
         }else{
+
             imgviewRet.setImageResource(R.drawable.payment_failed);
 
             String error = getIntent().getStringExtra(PaymentDetailsActivity.PAYMENT_ERROR);
             TextView textViewError = findViewById(R.id.textView_payment_error);
             textViewError.setText(error);
             textViewError.setVisibility(View.VISIBLE);
+
+            if (error.compareTo("No payment device!") == 0 || error.compareTo("Can't find device") == 0){
+                resultStr = "Bluetooth error!\nPlease reopen your phone's bluetooth.";
+
+
+            }
         }
         TextView textviewRet = findViewById(R.id.textView_payment_result);
         textviewRet.setTextColor(color);
@@ -74,5 +83,15 @@ public class PaymentResultActivity extends BaseActivity {
             }
         });
 
+
+
+        new AlertDialog.Builder(mContext)
+                .setMessage("Bluetooth error! Please reopen bluetooth setting!")
+                .setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                mContext.startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
+            }
+        }).show();
     }
 }

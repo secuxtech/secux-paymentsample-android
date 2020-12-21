@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
 import com.secuxtech.paymentkit.SecuXAccountManager;
 import com.secuxtech.paymentkit.SecuXCoinAccount;
+import com.secuxtech.paymentkit.SecuXCoinTokenBalance;
 import com.secuxtech.paymentkit.SecuXPaymentManager;
 import com.secuxtech.paymentkit.SecuXServerRequestHandler;
 import com.secuxtech.paymentkit.SecuXStoreInfo;
@@ -24,7 +26,7 @@ public class MainActivity extends BaseActivity {
     private SecuXPaymentManager mPaymentManager = new SecuXPaymentManager();
     private SecuXAccountManager mAccountManager = new SecuXAccountManager();
 
-    private SecuXUserAccount account = new SecuXUserAccount("maochuntest26@secuxtech.com", "12345678");
+    private SecuXUserAccount account = new SecuXUserAccount("maochuntest4@secuxtech.com", "12345678");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +74,21 @@ public class MainActivity extends BaseActivity {
     private Boolean loadAccounts(){
         Pair<Integer, String> ret = mAccountManager.getCoinAccountList(Setting.getInstance().mAccount);
         if (ret.first!= SecuXServerRequestHandler.SecuXRequestOK){
-
-
             return false;
         }
 
         ArrayList<CoinTokenAccount> tokenAccountArray = AccountUtil.getCoinTokenAccounts();
         for(CoinTokenAccount account : tokenAccountArray){
-            mAccountManager.getAccountBalance(Setting.getInstance().mAccount, account.mCoinType, account.mToken);
+            ret = mAccountManager.getAccountBalance(Setting.getInstance().mAccount, account.mCoinType, account.mToken);
+            if (ret.first == SecuXServerRequestHandler.SecuXRequestOK) {
+                SecuXCoinAccount coinAcc = Setting.getInstance().mAccount.getCoinAccount(account.mCoinType);
+                SecuXCoinTokenBalance balance = coinAcc.getBalance(account.mToken);
+
+                Log.i(TAG, " balance=" + balance.mFormattedBalance.toString() + " usdBalance=" + balance.mUSDBalance.toString());
+
+            } else {
+                showMessageInMain("Get account balance failed! Error: " + ret.second);
+            }
         }
 
         return true;

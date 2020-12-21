@@ -260,7 +260,6 @@ public class PaymentDetailsActivity extends BaseActivity {
 
 
 
-
         String strAmount = mEditTextAmount.getText().toString();
         if (strAmount.length() == 0){
 
